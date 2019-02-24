@@ -158,7 +158,7 @@ class Profile:
         pass
 
 
-class Economy:
+class Economy(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -261,6 +261,7 @@ class Economy:
             return Profile({'user_id': uid, 'level': 0, 'experience': 0, 'coins': 0}, economy=self)
         return Profile(profile, economy=self)
 
+    @commands.Cog.listener
     async def on_message(self, msg):
         if not msg.guild:
             return
@@ -305,6 +306,7 @@ class Economy:
                         rem = discord.utils.get(msg.guild.roles, name=str(max(profile.level - 5, 1)))
                         await msg.author.remove_roles(rem, reason=f"Reached level {profile.level}")
 
+    @commands.Cog.listener
     async def on_member_join(self, member):
         profile = await self.get_profile(member.id, ('level',))
         role = discord.utils.get(member.guild.roles, name=str(profile.level // 5 * 5))
@@ -320,12 +322,10 @@ class Economy:
 
     @commands.command(hidden=True, aliases=['givecolour'])
     @commands.has_permissions(administrator=True)
-    async def givecolor(self, ctx, member: discord.Member, *, color):
-        role = discord.utils.find(lambda x: color.lower() in x.name.lower(), ctx.guild.roles)
-        if not role:
-            return await ctx.send("Unknown color/role")
+    async def givecolor(self, ctx, member: discord.Member, *, color: discord.Role):
+
         await self.bot.db.execute(f'INSERT INTO colors (user_id, color) VALUES ({member.id}, {role.id})')
-        await ctx.send(f"Gave {member} the role <@&{role.id}>")
+        await ctx.send(f"Gave {member} the color <@&{role.id}>")
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
@@ -657,7 +657,7 @@ class Economy:
                 await profile.save()
                 await ctx.send(f'Thanks for buying {item.get_name()}!')
             else:
-                await ctx.send('Non color_role items not implemented')
+                await ctx.send(f'{item.type} type items are not implemented yet.')
 
     async def swap_member_color(self, member, role):
         topcolor = self.get_top_color(member.roles)
@@ -665,7 +665,6 @@ class Economy:
             await member.remove_roles(topcolor)
 
         await member.add_roles(role)
-
 
     @basic_cooldown(79200)
     @commands.guild_only()
@@ -692,7 +691,6 @@ class Economy:
             await ctx.send(f"You gave <@{receiver.id}> {amount} gold as daily reward.")
         else:
             await ctx.send(f"You got {amount} gold as daily reward.")
-
 
     @dailies.error
     async def dailies_error(self, ctx, error):
