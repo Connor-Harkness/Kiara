@@ -15,7 +15,7 @@ def cogname(name):
     return name if name.startswith('cogs.') else f'cogs.{name}'
 
 
-class Admin:
+class Admin(commands.Cog):
     """Admin-only commands that make the bot dynamic."""
 
     def __init__(self, bot):
@@ -32,7 +32,7 @@ class Admin:
         # remove `foo`
         return content.strip('` \n')
 
-    async def __local_check(self, ctx):
+    async def cog_check(self, ctx):
         return await self.bot.is_owner(ctx.author) or ctx.author.id in [211238461682876416, 73389450113069056]
 
     def get_syntax_error(self, e):
