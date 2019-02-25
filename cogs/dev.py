@@ -10,7 +10,7 @@ class Dev(commands.Cog):
         self.bot = bot
         self.issue = re.compile(r'##(?P<number>[0-9]+)')
 
-    async def __local_check(self, ctx):
+    async def cog_check(self, ctx):
         return await self.bot.is_owner(ctx.author) or ctx.author.id == 211238461682876416
 
     @commands.Cog.listener()
