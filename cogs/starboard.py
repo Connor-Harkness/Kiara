@@ -7,9 +7,11 @@ STAR_THRESHOLD = 5
 
 IGNORED = [271695900718399488, 415464201809690624]
 
-class Starboard:
+
+class Starboard(commands.Cog):
     """Starboard pinning quotes stuff"""
 
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         if payload.channel_id in IGNORED:
             return
@@ -31,6 +33,7 @@ class Starboard:
             await self.bot.db.execute(
                 f'INSERT INTO `starboard` (message_id, bot_message_id) VALUES ({payload.message_id}, {post.id})')
 
+    @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
         pass
 

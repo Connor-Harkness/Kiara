@@ -6,7 +6,8 @@ from discord.ext import commands
 
 from cogs.utils.cooldowns import basic_cooldown
 
-class Mansion:
+
+class Mansion(commands.Cog):
     """Spooky"""
 
     def __init__(self, bot):

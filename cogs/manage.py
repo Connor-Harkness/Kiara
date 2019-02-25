@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 
-class Manage:
+
+class Manage(commands.Cog):
     """Commands for managing Kiara as user"""
 
     def __init__(self, bot):

@@ -29,7 +29,8 @@ class Timer:
     def __repr__(self):
         return f'<Timer expires={self.expires} event={self.event}>'
 
-class Timers:
+
+class Timers(commands.Cog):
     """Setting timers"""
     def __init__(self, bot):
         self.bot = bot

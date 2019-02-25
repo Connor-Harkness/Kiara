@@ -10,12 +10,13 @@ def get_date(text):
     time, res = cal.parseDT(text, datetime.datetime.utcnow())
     return time if res else None
 
-class Reminders:
+class Reminders(commands.Cog):
     """Tools for reminding"""
     def __init__(self, bot):
         self.bot = bot
         self.timers = bot.get_cog('Timers')
 
+    @commands.Cog.listener()
     async def on_message(self, msg):
         if msg.channel.id != 269910005837332480:
             return
@@ -38,6 +39,7 @@ class Reminders:
             else:
                 await msg.channel.send(f"Idk when you want me to remind you")
 
+    @commands.Cog.listener()
     async def on_reminder_event(self, author_id, destination_id, msg):
         author = self.bot.get_user(author_id)
         if author is None:

@@ -3,7 +3,8 @@ import random
 import discord
 from discord.ext import commands
 
-class Gala:
+
+class Gala(commands.Cog):
     """Help yourself"""
 
     def __init__(self, bot):

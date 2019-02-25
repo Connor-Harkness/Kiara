@@ -6,7 +6,7 @@ from discord.ext import commands
 REPORT_CHANNEL = 414544787325059082
 
 
-class Report:
+class Report(commands.Cog):
     """Report commands"""
 
     def __init__(self, bot):

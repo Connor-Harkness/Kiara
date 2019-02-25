@@ -3,12 +3,13 @@ import datetime
 import re
 
 import discord
+from discord.ext import commands
 
 INVITE_REGEX = "(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/.+"
 LINK_REGEX = "(https?:\/\/[^\s<]+[^<.,:;\"')\]\s])"
 
 
-class Automod:
+class Automod(commands.Cog):
     """Kiara attempting to detect cunts and deal with them"""
 
     def __init__(self, bot):
@@ -43,6 +44,7 @@ class Automod:
                 await msg.channel.send(f"{msg.author.mention} you sent an invite link, I deleted it for you.")
                 return True
 
+    @commands.Cog.listener()
     async def on_message(self, msg):
         if not msg.guild:
             return
@@ -126,10 +128,11 @@ class Automod:
             await self.moderation.mute_user_id(msg.author.id, 5, "Auto mute")
             await self.moderation.warn_user(msg.author.id, self.bot.user.id, "Auto-mute: Possible spam")
 
-
+    @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         await self.invite_check(after)
 
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.created_at > datetime.datetime.now() - datetime.timedelta(days=1):
             await member.send("Your account has been kicked for being under a day old to prevent malicious users joining the server.")

@@ -12,7 +12,7 @@ def custom_format(td):
     return '{:d}:{:02d}'.format(hours, minutes)
 
 
-class Raffle:
+class Raffle(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -128,6 +128,7 @@ class Raffle:
         embed.set_footer(text=f'⏰ Ended')
         return embed
 
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         if payload.user_id == self.bot.user.id:
             return

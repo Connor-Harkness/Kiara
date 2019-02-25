@@ -66,7 +66,7 @@ class BannedMember(commands.Converter):
         return entity
 
 
-class Moderation:
+class Moderation(commands.Cog):
     """Moderation commands"""
 
     def __init__(self, bot):
@@ -177,6 +177,7 @@ class Moderation:
                                        [ctx.guild.id, member.id])
         await self.stafflog.make_case(member, f'Mute ({minutes} minute{"s" if minutes!=1 else ""})', reason, ctx.author)
 
+    @commands.Cog.listener()
     async def on_unmute_event(self, guild_id, user_id):
         guild = self.bot.get_guild(guild_id)
         member = guild.get_member(user_id)
@@ -265,6 +266,7 @@ class Moderation:
         else:
             await ctx.send(f'Please supply a better time format.')
 
+    @commands.Cog.listener()
     async def on_bumpreminder_event(self):
         ch = self.bot.get_channel(BUMP_CHANNEL)
         e = discord.Embed(title="Server can be bumped!", colour=discord.Colour.purple(),

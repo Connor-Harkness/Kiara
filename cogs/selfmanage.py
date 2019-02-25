@@ -27,7 +27,8 @@ base_colors = [
      ("Light Grey", 488187345565122565, 30),
  ]
 
-class Selfmanage:
+
+class Selfmanage(commands.Cog):
     """A cog for managing yourself"""
 
     all_roles = [
@@ -51,6 +52,7 @@ class Selfmanage:
         self.active_intros = []
         self.profiles = bot.get_cog("Economy")
 
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.guild.id == GUILD_ID:
             try:

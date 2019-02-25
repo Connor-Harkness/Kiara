@@ -54,13 +54,14 @@ class CleverWrap:
         self.convo_id = ""
 
 
-class Cleverbot:
+class Cleverbot(commands.Cog):
     """Cleverbot stuff"""
 
     def __init__(self, bot):
         self.bot = bot
         self.sessions = dict()
 
+    @commands.Cog.listener()
     async def on_message(self, msg):
         if msg.author == self.bot.user:
             return

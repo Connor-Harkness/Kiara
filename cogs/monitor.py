@@ -21,7 +21,7 @@ class MemberID(commands.Converter):
             return m.id
 
 
-class Monitor:
+class Monitor(commands.Cog):
     """Monitoring needs"""
 
     def __init__(self, bot):
@@ -64,11 +64,13 @@ class Monitor:
         member = await self.bot.get_user_info(member)
         await ctx.send(f'No longer monitoring {member}.')
 
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.id in self.logged_users:
             ch = self.bot.get_channel(MONITOR_CHANNEL)
             await ch.send(f'{member.mention} joined the server.')
 
+    @commands.Cog.listener()
     async def on_member_remove(self, member):
         if member.id in self.logged_users:
             ch = self.bot.get_channel(MONITOR_CHANNEL)
@@ -79,14 +81,17 @@ class Monitor:
             f'INSERT INTO `monitorlog` (`type`, `user_id`, `channel`, `content`, `attachments`) '
             f'VALUES (%s, %s, %s, %s, %s)', (logtype, user_id, channel, content, attachments))
 
+    @commands.Cog.listener()
     async def on_message_delete(self, message):
         att = '\n'.join(x.url for x in message.attachments)
         await self.log('delete', message.author.id, message.channel.id, message.content, att)
 
+    @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if before.content != after.content:
             await self.log('edit', before.author.id, before.channel.id, before.content)
 
+    @commands.Cog.listener()
     async def on_command(self, ctx):
         await self.log('command', ctx.author.id, ctx.channel.id, ctx.message.content)
 

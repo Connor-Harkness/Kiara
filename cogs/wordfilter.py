@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 
-class Wordfilter:
+class Wordfilter(commands.Cog):
     """Kiara attempting to detect bad words"""
 
     def __init__(self, bot):
@@ -61,6 +61,7 @@ class Wordfilter:
         else:
             await ctx.send("Couldn't detect any filtered words")
 
+    @commands.Cog.listener()
     async def on_message(self, msg):
         if not msg.guild:
             return
@@ -80,6 +81,7 @@ class Wordfilter:
             await self.moderation.mute_user_id(msg.author.id, 10, "Auto mute")
             await self.moderation.warn_user(msg.author.id, self.bot.user.id, f"Auto-mute: Triggered the word filter (`{found}`)")
 
+    @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if not after.guild:
             return

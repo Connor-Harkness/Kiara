@@ -11,7 +11,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Drops:
+class Drops(commands.Cog):
     """Random lewd care packages"""
 
     def __init__(self, bot):

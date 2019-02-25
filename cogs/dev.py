@@ -3,7 +3,7 @@ import re
 from discord.ext import commands
 
 
-class Dev:
+class Dev(commands.Cog):
     """Development stuff"""
 
     def __init__(self, bot):
@@ -13,6 +13,7 @@ class Dev:
     async def __local_check(self, ctx):
         return await self.bot.is_owner(ctx.author) or ctx.author.id == 211238461682876416
 
+    @commands.Cog.listener()
     async def on_ready(self):
         ch = await self.bot.redis.get('restartmessage')
         if ch:
@@ -20,6 +21,7 @@ class Dev:
             await ch.send("Back")
             await self.bot.redis.delete('restartmessage')
 
+    @commands.Cog.listener()
     async def on_message(self, message):
         if not message.guild:
             return

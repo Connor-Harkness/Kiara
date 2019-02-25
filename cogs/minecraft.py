@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 
-class Minecraft:
+class Minecraft(commands.Cog):
     """Minecraft server related commands"""
 
     def __init__(self, bot):

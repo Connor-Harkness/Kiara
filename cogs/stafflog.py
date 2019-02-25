@@ -15,7 +15,8 @@ async def poll_audit_log(guild, action, after, *, poll=1, **kwargs):
         await asyncio.sleep(1)
     return None
 
-class Stafflog:
+
+class Stafflog(commands.Cog):
     """Logging the bans~"""
 
     def __init__(self, bot):
@@ -49,6 +50,7 @@ class Stafflog:
         await msg.edit(embed=discord.Embed.from_data(em))
         await ctx.message.delete()
 
+    @commands.Cog.listener()
     async def on_member_remove(self, member):
         if member.guild.id != GUILD_ID:
             return
@@ -59,6 +61,7 @@ class Stafflog:
                 return
             await self.make_case(member, 'Kick', log.reason, log.user)
 
+    @commands.Cog.listener()
     async def on_member_ban(self, guild, member):
         if guild.id != GUILD_ID:
             return
@@ -68,6 +71,7 @@ class Stafflog:
         if log:
             await self.make_case(member, 'Ban', log.reason, log.user)
 
+    @commands.Cog.listener()
     async def on_member_unban(self, guild, member):
         if guild.id != GUILD_ID:
             return

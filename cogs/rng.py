@@ -6,7 +6,8 @@ from discord.ext import commands
 import discord
 import random
 
-class Rng:
+
+class Rng(commands.Cog):
     """Random helpful commands"""
 
     def __init__(self, bot):

@@ -261,7 +261,7 @@ class Economy(commands.Cog):
             return Profile({'user_id': uid, 'level': 0, 'experience': 0, 'coins': 0}, economy=self)
         return Profile(profile, economy=self)
 
-    @commands.Cog.listener
+    @commands.Cog.listener()
     async def on_message(self, msg):
         if not msg.guild:
             return
@@ -306,7 +306,7 @@ class Economy(commands.Cog):
                         rem = discord.utils.get(msg.guild.roles, name=str(max(profile.level - 5, 1)))
                         await msg.author.remove_roles(rem, reason=f"Reached level {profile.level}")
 
-    @commands.Cog.listener
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         profile = await self.get_profile(member.id, ('level',))
         role = discord.utils.get(member.guild.roles, name=str(profile.level // 5 * 5))

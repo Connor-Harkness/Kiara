@@ -67,7 +67,7 @@ class Slotmachine:
                 winnings += [f"You got {self.fruits[first].name} x{i+1} which is {self.fruits[first].payout[i]}"]
         return total, winnings
 
-class Casino:
+class Casino(commands.Cog):
     """Temporary casino so you can start gambling"""
 
     def __init__(self, bot):

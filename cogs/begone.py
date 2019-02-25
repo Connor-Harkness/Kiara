@@ -15,7 +15,7 @@ async def generate_embed(title, image_url, reason):
     return embed
 
 
-class Begone:
+class Begone(commands.Cog):
     """The Begone Thot Command, STAFF ONLY"""
 
     def __init__(self, bot):
