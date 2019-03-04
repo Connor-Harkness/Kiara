@@ -2,6 +2,7 @@ import asyncio
 import traceback
 
 import discord
+import datetime
 from discord.ext import commands
 
 from cogs.utils.cooldowns import basic_cooldown
@@ -126,6 +127,14 @@ class Selfmanage(commands.Cog):
             except Exception as e:
                 traceback.print_tb(e.__traceback__)
             self.active_intros.remove(member.id)
+    @commands.command()
+    async def welcome_image(self, member=None):
+        general = self.bot.get_channel(501064326786973699)
+        embed = discord.Embed(title=f"Welcome {member.author}", colour=discord.Colour(0xcc49e7))
+
+        embed.set_image(url="https://media.giphy.com/media/bcKmIWkUMCjVm/giphy.gif")
+        # embed.set_footer(text=f"Joined at: {datetime.datetime.now().time()}", icon_url=f"{member.author.avatar_url}")
+        await general.send(embed = embed)
 
     async def ask_question(self, user, question):
         def check(m):
